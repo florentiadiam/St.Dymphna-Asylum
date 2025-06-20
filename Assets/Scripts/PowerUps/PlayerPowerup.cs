@@ -21,7 +21,7 @@ public class PlayerPowerUp : MonoBehaviour
     public GameObject playerModel;          
     private PlayerMovement movement;        
     private float normalSpeed;              
-    public float boostedSpeed = 10f;        
+    public float boostedSpeed = 17f;        
 
     public Camera thirdPersonCam;
     public Camera topDownCam;
