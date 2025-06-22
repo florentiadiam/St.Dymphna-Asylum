@@ -5,44 +5,50 @@ using TMPro;
 
 public class LevelTimer : MonoBehaviour
 {
-    public float timeLimit = 120f; // Συνολικός χρόνος πίστας (σε δευτερόλεπτα)
-   public TMP_Text timerText;         // UI Text για εμφάνιση του χρόνου
-    private float currentTime;
-    private bool isTimeRunning = true;
-    public GameOverManager gameOverManager; 
+    public float timeLimit=120f;      // Total time for the level in seconds
+    public TMP_Text timerText;          //UI text element
+    private float currentTime;          // Tracks remaining time
+    private bool isTimeRunning= true;  
+    public GameOverManager gameOverManager; // Reference to GameOverManager to trigger game over
 
     void Start()
     {
-        currentTime = timeLimit; // Αρχικοποίηση του χρόνου
+        // Initialize timer to the set limit
+        currentTime=timeLimit;
     }
 
     void Update()
     {
         if (isTimeRunning)
         {
-            currentTime -= Time.deltaTime; // Μείωσε τον χρόνο ανά frame
+            // Decrease time by deltaTime each frame
+            currentTime-=Time.deltaTime;
 
-            if (currentTime <= 0)
+            // If time reaches 0 stop the timer and end the level
+            if (currentTime<= 0)
             {
-                currentTime = 0;
-                isTimeRunning = false;
-                EndLevel(); // Τέλος πίστας αν τελειώσει ο χρόνος
+                currentTime= 0;
+                isTimeRunning=false;
+                EndLevel();
             }
 
-            UpdateTimerUI(); // Ενημέρωσε το UI
+            //Update the timer UI every frame
+            UpdateTimerUI();
         }
     }
 
+    // Format the time and update the UI text
     void UpdateTimerUI()
     {
-        // Μετατροπή χρόνου σε λεπτά:δευτερόλεπτα
-        int minutes = Mathf.FloorToInt(currentTime / 60);
-        int seconds = Mathf.FloorToInt(currentTime % 60);
-        timerText.text = $"{minutes:00}:{seconds:00}";
+        int minutes=Mathf.FloorToInt(currentTime / 60);
+        int seconds=Mathf.FloorToInt(currentTime % 60);
+        timerText.text=$"{minutes:00}:{seconds:00}";
     }
-  void EndLevel()
+
+    // Called when time runs out
+    void EndLevel()
     {
         Debug.Log("Time's up!");
-        gameOverManager.TriggerGameOver(); // Καλεί το GameOver
+        gameOverManager.TriggerGameOver(); // Triggers game over state
     }
 }

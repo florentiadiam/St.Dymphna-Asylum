@@ -14,7 +14,7 @@ public class LevelMusicController : MonoBehaviour
     void Start()
     {
         // If a toggle button exists in the scene, configure it
-        if (toggleButton != null)
+        if (toggleButton!= null)
         {
             // Register the toggle event listener
             toggleButton.onClick.AddListener(ToggleMusic);
@@ -27,22 +27,22 @@ public class LevelMusicController : MonoBehaviour
     // Toggles the music on or off and updates the icon
     void ToggleMusic()
     {
-        // Flip the music state
-        musicOn = !musicOn;
+        //Flip the music state
+        musicOn=!musicOn;
 
         // Mute or unmute the audio source accordingly
-        levelMusic.mute = !musicOn;
+        levelMusic.mute=!musicOn;
 
-        // Update the toggle icon to reflect the change
+        //Update the toggle icon to reflect the change
         UpdateIcon();
     }
 
     // Changes the button icon to match the current music state
     void UpdateIcon()
     {
-        if (toggleButton != null)
+        if (toggleButton!= null)
         {
-            toggleButton.GetComponent<Image>().sprite = musicOn ? soundOnIcon : soundOffIcon;
+            toggleButton.GetComponent<Image>().sprite=musicOn? soundOnIcon:soundOffIcon;
         }
     }
 }

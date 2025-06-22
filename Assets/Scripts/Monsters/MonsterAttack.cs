@@ -2,43 +2,48 @@ using UnityEngine;
 
 public class MonsterAttack : MonoBehaviour
 {
-    public int damage = 10;
-    public float attackRange = 2.5f;
-    public float attackCooldown = 1.5f;
+    public int damage= 10;                 // Damage dealt to the player per attack
+    public float attackRange= 2.5f;        // Maximum distance to trigger an attack
+    public float attackCooldown= 1.5f;     // Delay between consecutive attacks
 
-    private float lastAttackTime = 0f;
-    private Animator animator;
-    private Transform player;
+    private float lastAttackTime= 0f;      // Tracks time for next allowed attack
+    private Animator animator;              
+    private Transform player;              
 
     void Start()
     {
-        animator = GetComponent<Animator>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        // Get animator and find the player in the scene
+        animator= GetComponent<Animator>();
+        player= GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
     {
-        if (player == null) return;
+        // If player reference is missing, do nothing
+        if (player==null) return;
 
-        float distance = Vector3.Distance(transform.position, player.position);
-        if (distance <= attackRange && Time.time >= lastAttackTime)
+        float distance=Vector3.Distance(transform.position, player.position);
+
+        // Check if player is within range and cooldown has passed
+        if (distance<=attackRange && Time.time>=lastAttackTime)
         {
-            // Έλεγχος: Αν ο παίκτης είναι αόρατος, μην τον χτυπάς
-            PlayerPowerUp power = player.GetComponent<PlayerPowerUp>();
-            if (power != null && power.isInvisible)
+            // If player is invisible due to power-up, skip the attack
+            PlayerPowerUp power=player.GetComponent<PlayerPowerUp>();
+            if (power!= null && power.isInvisible)
                 return;
 
-            // Trigger attack animation
+            // Play attack animation
             animator.SetTrigger("AttackTrigger");
 
-            // Damage the player
-            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
+            //Apply damage to the player
+            PlayerHealth playerHealth=player.GetComponent<PlayerHealth>();
+            if (playerHealth!= null)
             {
                 playerHealth.TakeDamage(damage);
             }
 
-            lastAttackTime = Time.time + attackCooldown;
+            // Reset attack cooldown timer
+            lastAttackTime=Time.time+attackCooldown;
         }
     }
 }

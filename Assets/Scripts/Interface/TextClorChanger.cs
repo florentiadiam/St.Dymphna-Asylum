@@ -10,11 +10,11 @@ public class TextColorChanger : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        text.color = pressedColor;
+        text.color= pressedColor;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        text.color = normalColor;
+        text.color= normalColor;
     }
 }

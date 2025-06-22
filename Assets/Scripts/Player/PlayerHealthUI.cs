@@ -8,10 +8,10 @@ public class PlayerHealthUI : MonoBehaviour
 
     [Header("Health Bar")]
     public Image healthBarFill;                 // Health bar fill image
-    public TextMeshProUGUI healthText;          // Text showing current 
+    public TextMeshProUGUI healthText;          // Health Text
 
     [Header("Blood Overlay")]
-    public GameObject bloodOverlay;             // UI image or panel shown when health is low
+    public GameObject bloodOverlay;             // UI image that shows blood when health is low
 
     [Header("Lives UI")]
     public Image[] hearts;                      // Heart icons in the UI
@@ -20,36 +20,36 @@ public class PlayerHealthUI : MonoBehaviour
 
     void OnEnable()
     {
-        // Subscribe to lives change event
-        PlayerHealth.onLivesChanged += UpdateHearts;
+        // If the hearts of the player change, update the ui
+        PlayerHealth.onLivesChanged+=UpdateHearts;
     }
 
     void OnDisable()
     {
         // Unsubscribe to avoid errors
-        PlayerHealth.onLivesChanged -= UpdateHearts;
+        PlayerHealth.onLivesChanged-=UpdateHearts;
     }
 
     void Update()
     {
         // Update health bar fill based on current health ratio
-        float ratio = (float)playerHealth.GetCurrentHealth() / playerHealth.maxHealth;
+        float ratio = (float)playerHealth.GetCurrentHealth()/playerHealth.maxHealth;
         healthBarFill.fillAmount = ratio;
 
         // Update the health text 
-        healthText.text = playerHealth.GetCurrentHealth() + " / " + playerHealth.maxHealth;
+        healthText.text = playerHealth.GetCurrentHealth()+" / " +playerHealth.maxHealth;
 
         // Enable blood overlay if health is below 40%
-        bloodOverlay.SetActive(ratio < 0.4f);
+        bloodOverlay.SetActive(ratio<0.4f);
     }
 
-    // Update the hearts when notified by event
+    // Update the hearts 
     void UpdateHearts(int lives)
     {
-        for (int i = 0; i < hearts.Length; i++)
+        for (int i= 0; i<hearts.Length; i++)
         {
-            // Show full heart if i < lives, otherwise show empty heart
-            hearts[i].sprite = (i < lives) ? fullHeart : emptyHeart;
+            // Show full heart if i< lives, otherwise show empty heart
+            hearts[i].sprite = (i< lives) ? fullHeart:emptyHeart;
         }
     }
 }

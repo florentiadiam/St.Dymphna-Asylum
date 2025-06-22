@@ -8,7 +8,7 @@ public class MusicManagerMain : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // Avoid duplicate music objects if one already exists
-        if (FindObjectsOfType<MusicManagerMain>().Length > 1)
+        if (FindObjectsOfType<MusicManagerMain>().Length>1)
         {
             Destroy(gameObject);
         }

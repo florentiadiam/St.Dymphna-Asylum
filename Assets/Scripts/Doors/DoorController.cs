@@ -2,47 +2,53 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
-    public float openAngle = 90f;
-    public float speed = 3f;
-    public KeyCode openKey = KeyCode.T;
-    public float interactRange = 3f;
+    public float openAngle= 90f;          // the angle that the door will open in degrees
+    public float speed= 3f;               // Speed of door rotation
+    public KeyCode openKey=KeyCode.T;    // Key to open the door
+    public float interactRange= 7f;       // Max distance for interaction
 
-    public GameObject doorPromptUI; // 👈 drag your TMP UI prompt here
+    public GameObject doorPromptUI;        //UI prompt shown when player is near the door
 
-    private Quaternion closedRotation;
-    private Quaternion openRotation;
-    private bool isOpen = false;
-    private Transform player;
+    private Quaternion closedRotation;     //Original rotation of the door
+    private Quaternion openRotation;       //Target rotation when door is open
+    private bool isOpen= false;           //Tracks door state
+    private Transform player;              //Reference to the player
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        // Find the player by tag
+        player=GameObject.FindGameObjectWithTag("Player").transform;
 
-        closedRotation = transform.rotation;
-        openRotation = Quaternion.Euler(transform.eulerAngles + new Vector3(0, openAngle, 0));
+        // Set initial and target rotations of the door
+        closedRotation=transform.rotation;
+        openRotation=Quaternion.Euler(transform.eulerAngles+new Vector3(0, openAngle, 0));
 
-        if (doorPromptUI != null)
-            doorPromptUI.SetActive(false); // hide at start
+        // Hide the door prompt at the beginning
+        if (doorPromptUI!= null)
+            doorPromptUI.SetActive(false);
     }
 
     void Update()
     {
-        float distance = Vector3.Distance(player.position, transform.position);
+        // Calculate distance from player to door
+        float distance=Vector3.Distance(player.position, transform.position);
 
-        // Show/hide the UI prompt based on distance
-        if (doorPromptUI != null)
-            doorPromptUI.SetActive(distance <= interactRange && !isOpen);
+        // Show the prompt if player is close and door is not already open
+        if (doorPromptUI!= null)
+            doorPromptUI.SetActive(distance<= interactRange&& !isOpen);
 
-        // Toggle door when close enough and key is pressed
-        if (Input.GetKeyDown(openKey) && distance <= interactRange)
+        // Toggle door open/close when player presses the key and is in range
+        if (Input.GetKeyDown(openKey)&&distance<= interactRange)
         {
-            isOpen = !isOpen;
+            isOpen=!isOpen;
 
+            // Hide the prompt after interaction
             if (doorPromptUI != null)
-                doorPromptUI.SetActive(false); // hide after open
+                doorPromptUI.SetActive(false);
         }
 
-        Quaternion targetRotation = isOpen ? openRotation : closedRotation;
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * speed);
+        // Smoothly rotate door to target rotation (open or closed)
+        Quaternion targetRotation=isOpen?openRotation:closedRotation;
+        transform.rotation=Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime*speed);
     }
 }

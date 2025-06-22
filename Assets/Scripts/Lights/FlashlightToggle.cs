@@ -6,15 +6,16 @@ public class FlashlightToggle : MonoBehaviour
 
     void Start()
     {
-        flashlight = GetComponent<Light>();
-        flashlight.enabled = false; // start off
+        flashlight= GetComponent<Light>();
+        flashlight.enabled=false; 
     }
 
     void Update()
     {
+        //if key F is pressed then enable the flashlight
         if (Input.GetKeyDown(KeyCode.F))
         {
-            flashlight.enabled = !flashlight.enabled;
+            flashlight.enabled=!flashlight.enabled;
         }
     }
 }

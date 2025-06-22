@@ -7,19 +7,19 @@ public class FollowPlayer : MonoBehaviour
 
     void Start()
     {
-        // Αρχικό offset από τον παίκτη (θέση κάμερας - θέση παίκτη)
-        offset = transform.position - playerTransform.position;
+        // initial offset from the player (camera transform-player transform)
+        offset=transform.position-playerTransform.position;
     }
 
     void LateUpdate()
     {
-        // Περιστρέφουμε το offset σύμφωνα με την περιστροφή του παίκτη
-        Vector3 rotatedOffset = playerTransform.rotation * offset;
+        //rotate the offset based on the rotation of the player
+        Vector3 rotatedOffset=playerTransform.rotation*offset;
 
-        // Η κάμερα τοποθετείται σε σχετική θέση πίσω από τον παίκτη
-        transform.position = playerTransform.position + rotatedOffset;
+        //Camera is positioned right behind of the player
+        transform.position=playerTransform.position+rotatedOffset;
 
-        // Η κάμερα κοιτάει προς τον παίκτη (π.χ. στο κεφάλι)
-transform.LookAt(playerTransform.position + Vector3.up * 13f);
+        //Camera looks at the player (his head)
+        transform.LookAt(playerTransform.position+ Vector3.up*13f);
     }
 }

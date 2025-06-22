@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHealth = 100;       // The player's max health
-    public int totalLives = 2;        // Total number of lives the player has
+    public int maxHealth= 100;       // The player's max health
+    public int totalLives= 2;        // Total number of lives the player has (first in the easy level)
 
     private int currentHealth;        // Current health in this life
     private int currentLives;         // Remaining lives
@@ -15,8 +15,8 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         // Initialize lives and health
-        currentLives = totalLives;
-        currentHealth = maxHealth;
+        currentLives= totalLives;
+        currentHealth= maxHealth;
 
         // Notify the UI about the initial number of lives
         onLivesChanged?.Invoke(currentLives);
@@ -25,10 +25,11 @@ public class PlayerHealth : MonoBehaviour
     // Call this method to apply damage to the player
     public void TakeDamage(int amount)
     {
-        currentHealth -= amount;
-        Debug.Log("Player took damage. New health: " + currentHealth);
+        currentHealth-=amount;
+        Debug.Log("Player took damage. New health: "+currentHealth);
 
-        if (currentHealth <= 0)
+    //if his health reaches 0, loose one life
+        if (currentHealth<=0)
         {
             LoseLife();
         }
@@ -42,9 +43,9 @@ public class PlayerHealth : MonoBehaviour
         // Notify the UI
         onLivesChanged?.Invoke(currentLives);
 
-        if (currentLives > 0)
+        //if the player still has remaining lives, full his bar health again
+        if (currentLives>0)
         {
-            Debug.Log("Life lost. Respawning...");
             currentHealth = maxHealth;
         }
         else
@@ -56,11 +57,10 @@ public class PlayerHealth : MonoBehaviour
     // Handle final death and show game over screen
     void Die()
     {
-        Debug.Log("Player died! Game Over.");
 
         // Try to find and show the Game Over UI
         GameOverManager gameOver = GameObject.FindObjectOfType<GameOverManager>();
-        if (gameOver != null)
+        if (gameOver!= null)
         {
             gameOver.ShowGameOver();
         }
